@@ -32,24 +32,33 @@ namespace RestClient
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
             request.Method = httpMethod.ToString();
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            try
             {
-                if (response.StatusCode != HttpStatusCode.OK)
+
+
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
-                    throw new ApplicationException("Error COde" + response.StatusCode);
-                }
-                //process the response stream (Json, Xml ., html.))
-                using (Stream responseStream = response?.GetResponseStream())
-                {
-                    if (responseStream != null)
+                    if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        using (StreamReader reader = new StreamReader(responseStream))
+                        throw new ApplicationException("Error COde" + response.StatusCode);
+                    }
+                    //process the response stream (Json, Xml ., html.))
+                    using (Stream responseStream = response?.GetResponseStream())
+                    {
+                        if (responseStream != null)
                         {
-                            strResponsValue = reader.ReadToEnd();
+                            using (StreamReader reader = new StreamReader(responseStream))
+                            {
+                                strResponsValue = reader.ReadToEnd();
+                            }
                         }
                     }
-                }
 
+                }
+            }
+            catch (Exception e)
+            {
+                strResponsValue = e.InnerException?.Message + "| " + e.Message;
             }
 
             return strResponsValue;
