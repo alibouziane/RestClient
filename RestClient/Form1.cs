@@ -22,20 +22,12 @@ namespace RestClient
         private void buttonGo_Click(object sender, EventArgs e)
         {
             //http://dry-cliffs-19849.herokuapp.com/users/4.json
-
+            TextResponse.Text = string.Empty;
             RestClient rClient = new RestClient();
             rClient.endPoint = textRestValueUrl.Text;
             debugOutput($"Rest Client Created");
-
-
             string strRespons = rClient.makeRequest();
-
             debugOutput(strRespons);
-
-
-
-
-
         }
 
         private void debugOutput(string strDebugText)

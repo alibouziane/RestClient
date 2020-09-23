@@ -30,6 +30,9 @@ namespace RestClient
         {
             string strResponsValue = string.Empty;
 
+            ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol |
+                SecurityProtocolType.Tls12;
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(endPoint);
             request.Method = httpMethod.ToString();
             try
